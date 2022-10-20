@@ -27,12 +27,12 @@ const Navbar = () => {
         <Busca />
       </div>
       <div className={styles.icones}>
-        <a href='/carrinho'>
+        <Link to='/carrinho'>
           {window.location.pathname === '/carrinho'
           ? <RiShoppingCartFill {...iconeProps} />
           : <RiShoppingCart2Line {...iconeProps} />
           }
-        </a>
+        </Link>
       </div>
     </nav>
   );
