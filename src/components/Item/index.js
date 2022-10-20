@@ -1,14 +1,27 @@
 import styles from './Item.module.scss';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { FaCartPlus } from 'react-icons/fa';
+import { mudarFavorito } from 'store/reducers/itens';
+import { useDispatch, useSelector } from 'react-redux';
+import { mudarCarrinho } from 'store/reducers/carrinho';
 
 const Item = (props) => {
   
-  const { titulo, foto, preco, descricao, favorito } = props;
+  const { titulo, foto, preco, descricao, favorito, id } = props;
+  const dispatch = useDispatch();
+  const estaNoCarrinho = useSelector(state => state.carrinho.some(itemNoCarrinho => itemNoCarrinho.id === id));
 
   const iconeProps = {
     size: 24,
     color: '#041833',
+  };
+
+  const resolverFavorito = () => {
+    dispatch(mudarFavorito(id));
+  };
+
+  const resolverCarrinho = () => {
+    dispatch(mudarCarrinho(id));
   };
 
   return (
@@ -27,9 +40,9 @@ const Item = (props) => {
           </div>
           <div className={styles['item-acoes']}>
             { favorito ? 
-            <AiFillHeart {...iconeProps} color={'#ff0000'} className={styles['itens-acao']}/> 
-            : <AiOutlineHeart {...iconeProps}  className={styles['itens-acao']}/> }
-            <FaCartPlus {...iconeProps} color={true ? '#1875E8' : iconeProps.color} className={styles['item-acao']} />
+            <AiFillHeart {...iconeProps} color={'#ff0000'} className={styles['itens-acao']} onClick={resolverFavorito}/> 
+            : <AiOutlineHeart {...iconeProps}  className={styles['itens-acao']} onClick={resolverFavorito}/> }
+            <FaCartPlus {...iconeProps} color={estaNoCarrinho ? '#1875E8' : iconeProps.color} className={styles['item-acao']} onClick={resolverCarrinho}/>
           </div>
         </div>
       </div>
